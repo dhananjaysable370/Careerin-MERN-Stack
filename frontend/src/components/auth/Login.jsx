@@ -10,21 +10,21 @@ import { USER_API_END_POINT } from "@/utils/endpoint";
 import axios from "axios";
 
 const Login = () => {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     email: "",
     password: "",
     role: "",
   });
 
-  const changeInputHandeler = (e) => {
+  const changeInputHandler = (e) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
   };
 
-  const submitHandeler = async (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
@@ -34,12 +34,11 @@ const Login = () => {
         withCredentials: true,
       });
       if (res.data.success) {
-        console.log(res.data);
         toast.success(res.data.message);
-        navigator("/");
+        navigate("/");
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "An error occurred");
     }
   };
 
@@ -48,7 +47,7 @@ const Login = () => {
       <Navbar />
       <div className="flex justify-center items-center max-w-7xl mx-auto ">
         <form
-          onSubmit={submitHandeler}
+          onSubmit={submitHandler}
           className="w-1/2 border border-gray-200 rounded-md p-4 my-10"
         >
           <h1 className="font-bold text-xl mb-5">Login</h1>
@@ -62,7 +61,7 @@ const Login = () => {
               id="email"
               name="email"
               value={input.email}
-              onChange={changeInputHandeler}
+              onChange={changeInputHandler}
               placeholder="johndoe@gmail.com"
               className="mb-5"
             />
@@ -77,7 +76,7 @@ const Login = () => {
               id="password"
               name="password"
               value={input.password}
-              onChange={changeInputHandeler}
+              onChange={changeInputHandler}
               placeholder="Password"
               className="mb-5"
             />
@@ -94,7 +93,7 @@ const Login = () => {
                     name="role"
                     checked={input.role === "student"}
                     value="student"
-                    onChange={changeInputHandeler}
+                    onChange={changeInputHandler}
                     id="student"
                     className="cursor-pointer"
                   />
@@ -111,7 +110,7 @@ const Login = () => {
                     name="role"
                     checked={input.role === "recruiter"}
                     value="recruiter"
-                    onChange={changeInputHandeler}
+                    onChange={changeInputHandler}
                     id="recruiter"
                     className="cursor-pointer"
                   />
@@ -120,9 +119,9 @@ const Login = () => {
               </div>
             </RadioGroup>
           </div>
-          <Button className="w-full my-4">Sign up</Button>
+          <Button className="w-full my-4">Login</Button>
           <span className="text-sm">
-            {"Dont't"} have an account?{" "}
+            {"Don't"} have an account?{" "}
             <Link to={"/signup"} className="text-blue-700 font-bold">
               Sign up
             </Link>
