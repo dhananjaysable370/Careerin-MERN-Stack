@@ -7,7 +7,7 @@ export const register = async (req, res) => {
     const { fullname, email, phonenumber, password, role } = req.body;
 
     console.log(fullname, email, phonenumber, password, role);
-    
+
     if (!fullname || !email || !phonenumber || !password || !role) {
       return res.status(400).json({
         message: "Something is missing!",
@@ -53,6 +53,7 @@ export const login = async (req, res) => {
         success: false,
       });
     }
+
     let user = await User.findOne({ email });
 
     if (!user) {
@@ -104,6 +105,7 @@ export const login = async (req, res) => {
       })
       .json({
         message: `Welcome back ${user.fullname}`,
+        success: true,
       });
   } catch (error) {
     return res.status(500).json({
